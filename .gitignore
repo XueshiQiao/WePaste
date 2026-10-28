@@ -1,0 +1,17 @@
+# Rust / Tauri build artifacts
+/target/
+**/*.rs.bk
+
+# macOS
+.DS_Store
+
+# IDE & Editor
+.idea/
+.vscode/
+*.swp
+
+# Local Tauri / Signing keys
+*.pem
+*.p12
+.env
+.env.*
