@@ -48,9 +48,9 @@
   </defs>
 
   <!-- 背景底板 -->
-  <rect width="1200" height="560" rx="28" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="2"/>
-  <rect width="1200" height="560" rx="28" fill="url(#emeraldGlow)"/>
-  <rect width="1200" height="560" rx="28" fill="url(#indigoGlow)"/>
+  <rect x="2" y="2" width="1196" height="556" rx="52" ry="52" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="2" y="2" width="1196" height="556" rx="52" ry="52" fill="url(#emeraldGlow)"/>
+  <rect x="2" y="2" width="1196" height="556" rx="52" ry="52" fill="url(#indigoGlow)"/>
 
   <!-- 顶部标题条 -->
   <g transform="translate(600, 46)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">

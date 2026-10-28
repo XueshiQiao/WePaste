@@ -3,7 +3,7 @@
 **无需切换电脑输入法，直接双向同步手机「微信输入法」与电脑（macOS / Windows）系统剪贴板。**
 
 <p align="center">
-  <img src="assets/hero-workflow.jpg" alt="WePaste 跨设备剪贴板双向同步示意图" width="100%" />
+  <img src="assets/hero-workflow.png" alt="WePaste 跨设备剪贴板双向同步示意图" width="80%" />
 </p>
 
 手机上用微信输入法很顺手，但在电脑（Mac / Windows）上往往主力使用系统自带输入法、Rime 或搜狗输入法。官方微信输入法桌面端要求切换到它的输入法状态下才能完整使用跨设备剪贴板。
@@ -27,7 +27,7 @@
    - **电脑 → 手机**：在电脑上复制内容后，点击 WePaste 面板下半区的 **「🚀 发送上面这条电脑剪贴板到手机」**（或菜单栏右键菜单中的「把电脑剪贴板发给手机」）。
 
 <p align="center">
-  <img src="assets/workflow.svg" alt="WePaste 双向同步详细工作流示意图" width="100%" />
+  <img src="assets/workflow.svg" alt="WePaste 双向同步详细工作流示意图" width="80%" />
 </p>
 
 ---
