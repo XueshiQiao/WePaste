@@ -35,6 +35,7 @@ pub struct DeviceDto {
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AppStateSnapshot {
+    pub platform: String,
     pub app_version: String,
     pub paired: bool,
     pub auto_sync: bool,
@@ -115,26 +116,95 @@ fn resolve_state_dir() -> PathBuf {
     dir
 }
 
-fn resolve_device_name(state_dir: &Path) -> String {
-    let name_file = state_dir.join("device-name");
-    if let Ok(existing) = fs::read_to_string(&name_file) {
-        let trimmed = existing.trim();
+fn detect_system_host_name() -> String {
+    #[cfg(target_os = "windows")]
+    if let Some(name) = std::env::var_os("COMPUTERNAME")
+        .or_else(|| std::env::var_os("HOSTNAME"))
+        .and_then(|s| s.into_string().ok())
+    {
+        let trimmed = name.trim();
         if !trimmed.is_empty() {
             return trimmed.to_owned();
         }
     }
+
+    #[cfg(target_os = "macos")]
+    {
+        if let Ok(out) = std::process::Command::new("scutil")
+            .args(["--get", "ComputerName"])
+            .output()
+            && out.status.success()
+            && let Ok(s) = String::from_utf8(out.stdout)
+        {
+            let trimmed = s.trim();
+            if !trimmed.is_empty() {
+                return trimmed.to_owned();
+            }
+        }
+        if let Ok(out) = std::process::Command::new("hostname").arg("-s").output()
+            && out.status.success()
+            && let Ok(s) = String::from_utf8(out.stdout)
+        {
+            let trimmed = s.trim();
+            if !trimmed.is_empty() {
+                return trimmed.to_owned();
+            }
+        }
+    }
+
+    let seed = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    let hash_hex = blake3::hash(&seed.to_le_bytes()).to_hex();
+    let suffix = &hash_hex.as_str()[..4].to_uppercase();
+    if cfg!(target_os = "windows") {
+        format!("DESKTOP-{suffix}")
+    } else {
+        format!("MAC-{suffix}")
+    }
+}
+
+fn resolve_device_name(state_dir: &Path) -> String {
+    let name_file = state_dir.join("device-name");
     let identity_file = state_dir.join("identity.json");
+
+    if let Ok(existing) = fs::read_to_string(&name_file) {
+        let trimmed = existing.trim();
+        if !trimmed.is_empty() && !trimmed.eq_ignore_ascii_case("WePaste") {
+            return trimmed.to_owned();
+        }
+    }
+
     if let Ok(raw) = fs::read_to_string(&identity_file)
         && let Ok(val) = serde_json::from_str::<serde_json::Value>(&raw)
         && let Some(name) = val.get("device_name").and_then(|v| v.as_str())
-        && !name.trim().is_empty()
     {
-        let _ = fs::write(&name_file, name.trim());
-        return name.trim().to_owned();
+        let trimmed = name.trim();
+        if !trimmed.is_empty() && !trimmed.eq_ignore_ascii_case("WePaste") {
+            let _ = fs::write(&name_file, trimmed);
+            return trimmed.to_owned();
+        }
     }
-    let default_name = "WePaste".to_owned();
-    let _ = fs::write(&name_file, &default_name);
-    default_name
+
+    let host_name = detect_system_host_name();
+    let _ = fs::write(&name_file, &host_name);
+
+    // 如果旧 identity.json 里存的是 "WePaste"，一并原地更新为系统主机名，避免重新生成身份
+    if let Ok(raw) = fs::read_to_string(&identity_file)
+        && let Ok(mut val) = serde_json::from_str::<serde_json::Value>(&raw)
+        && let Some(obj) = val.as_object_mut()
+    {
+        obj.insert(
+            "device_name".to_owned(),
+            serde_json::Value::String(host_name.clone()),
+        );
+        if let Ok(updated) = serde_json::to_string_pretty(&val) {
+            let _ = fs::write(&identity_file, updated);
+        }
+    }
+
+    host_name
 }
 
 fn encode_thumbnail_data_url(img: &DynamicImage) -> Option<String> {
@@ -351,6 +421,11 @@ const _INDEX_HTML_WATCH: &str = include_str!("../../ui/index.html");
 #[tauri::command]
 fn start_window_drag(window: tauri::Window) {
     let _ = window.start_dragging();
+}
+
+#[tauri::command]
+fn hide_main_window(window: tauri::Window) {
+    let _ = window.hide();
 }
 
 #[tauri::command]
@@ -766,6 +841,7 @@ fn main() {
         paired: false,
         auto_sync: true,
         autostart: false,
+        platform: std::env::consts::OS.to_owned(),
         app_version: env!("CARGO_PKG_VERSION").to_owned(),
         update_available: None,
         local_name: device_name.clone(),
@@ -887,6 +963,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             start_window_drag,
+            hide_main_window,
             get_app_state,
             set_auto_sync,
             set_autostart,

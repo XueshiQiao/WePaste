@@ -244,6 +244,35 @@
       color: #ffffff;
     }
 
+    .win-close-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(128, 128, 128, 0.2);
+      background: rgba(128, 128, 128, 0.1);
+      color: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .win-close-btn:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+
+    .is-windows-os.theme-arc-deck,
+    .is-windows-os.theme-arc-light {
+      padding-top: 18px;
+    }
+
     /* =========================================================================
        Arc Split-Deck 暗色版（theme-arc-deck）
        ========================================================================= */
@@ -835,7 +864,8 @@
       paired: true,
       autoSync: true,
       autostart: false,
-      appVersion: "0.1.1",
+      platform: /Win/i.test(navigator.platform || navigator.userAgent) ? "windows" : "macos",
+      appVersion: "0.1.2",
       updateAvailable: null,
       checkingUpdate: false,
       installingUpdate: false,
@@ -1022,10 +1052,12 @@
 
     function renderArcDeck(themeKey, showSwitcher) {
       const isLight = themeKey === "arc-light";
-      const wrapClass = isLight ? "theme-arc-light" : "theme-arc-deck";
+      const isWindows = appState.platform === "windows";
+      const wrapClass = `${isLight ? "theme-arc-light" : "theme-arc-deck"}${isWindows ? " is-windows-os" : ""}`;
       const primaryPhone = appState.devices[0]?.name || "未关联手机";
       const rxText = renderRxContent(`<span style="opacity:0.48;font-style:italic;">等待手机复制新内容...</span>`);
       const txText = renderTxContent(`<span style="opacity:0.48;font-style:italic;">电脑当前剪贴板为空</span>`);
+      const closeBtnHtml = `<button class="win-close-btn" data-action="close-window" title="隐藏到托盘">✕</button>`;
 
       // 未连接 / 未配对状态：不展示下方的拉取和发送模块，直接展示全屏配对主面板
       if (!appState.paired) {
@@ -1039,7 +1071,10 @@
                   <div class="arc-brand-sub">本机节点 ${escapeHtml(appState.localName)} · 未绑定设备</div>
                 </div>
               </div>
-              ${inlineSwitcherHtml(themeKey, showSwitcher)}
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${inlineSwitcherHtml(themeKey, showSwitcher)}
+                ${closeBtnHtml}
+              </div>
             </header>
 
             ${appState.banner ? `<div class="banner-notice ${appState.bannerType === "error" ? "error" : ""}">${escapeHtml(appState.banner)}</div>` : ""}
@@ -1096,6 +1131,7 @@
             <div style="display:flex; align-items:center; gap:6px;">
               ${appState.updateAvailable ? `<button class="arc-pull-btn" data-action="install-update" style="padding:4px 9px;font-size:10.5px;background:rgba(16,185,129,0.22);border-color:rgba(16,185,129,0.5);">🚀 新版 v${escapeHtml(appState.updateAvailable)}</button>` : ""}
               ${inlineSwitcherHtml(themeKey, showSwitcher)}
+              ${closeBtnHtml}
             </div>
           </header>
 
@@ -1594,6 +1630,9 @@
             break;
           case "submit-pair":
             submitPairCode(arg);
+            break;
+          case "close-window":
+            invokeTauri("hide_main_window");
             break;
         }
       });
