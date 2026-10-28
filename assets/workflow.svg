@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="100%" height="100%">
+  <defs>
+    <!-- 整体背景：Arc 风格柔和流光渐变 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="50%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+
+    <!-- 翡翠绿光晕（手机 -> 电脑） -->
+    <radialGradient id="emeraldGlow" cx="25%" cy="35%" r="45%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 星云紫光晕（电脑 -> 手机） -->
+    <radialGradient id="indigoGlow" cx="75%" cy="65%" r="45%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- WePaste Logo 渐变 -->
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+
+    <!-- 上通道（手机 -> 电脑）渐变 -->
+    <linearGradient id="rxBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- 下通道（电脑 -> 手机）渐变 -->
+    <linearGradient id="txBeam" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+
+    <!-- 卡片阴影 -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.07"/>
+    </filter>
+
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- 背景底板 -->
+  <rect width="1200" height="560" rx="28" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="2"/>
+  <rect width="1200" height="560" rx="28" fill="url(#emeraldGlow)"/>
+  <rect width="1200" height="560" rx="28" fill="url(#indigoGlow)"/>
+
+  <!-- 顶部标题条 -->
+  <g transform="translate(600, 46)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <rect x="-250" y="-22" width="500" height="34" rx="17" fill="#ffffff" stroke="#e2e8f0" filter="url(#softShadow)"/>
+    <text x="0" y="0" font-size="13.5" font-weight="700" fill="#334155">
+      ⚡ 无需在电脑上切换微信输入法 · 手机与电脑系统剪贴板双向直通
+    </text>
+  </g>
+
+  <!-- =====================================================================
+       左侧：手机端（微信输入法）
+       ===================================================================== -->
+  <g transform="translate(68, 86)" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <!-- 手机外框底座卡片 -->
+    <rect x="0" y="0" width="290" height="410" rx="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#cardShadow)"/>
+    <!-- 手机屏幕内胆 -->
+    <rect x="14" y="14" width="262" height="382" rx="24" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <!-- 灵动岛 -->
+    <rect x="105" y="24" width="80" height="16" rx="8" fill="#0f172a"/>
+
+    <!-- 手机端标题 -->
+    <text x="145" y="68" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a">📱 手机端 · 微信输入法</text>
+    <text x="145" y="88" text-anchor="middle" font-size="12" font-weight="500" fill="#64748b">开启「跨设备复制粘贴」</text>
+
+    <!-- 手机内卡片 1：复制文本/链接 -->
+    <g transform="translate(28, 108)">
+      <rect width="234" height="96" rx="16" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1.5"/>
+      <rect x="14" y="12" width="76" height="20" rx="6" fill="#10b981"/>
+      <text x="52" y="26" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">📝 文本 / 链接</text>
+      <text x="14" y="52" font-size="12.5" font-weight="600" fill="#065f46">“在手机上复制任意一段文字</text>
+      <text x="14" y="70" font-size="12.5" font-weight="600" fill="#065f46">或链接，电脑直接 ⌘V 粘贴”</text>
+      <text x="14" y="87" font-size="10.5" fill="#047857">手机剪贴板 · 实时捕获</text>
+    </g>
+
+    <!-- 手机内卡片 2：复制截图/相册图片 -->
+    <g transform="translate(28, 218)">
+      <rect width="234" height="114" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+      <rect x="14" y="12" width="82" height="20" rx="6" fill="#3b82f6"/>
+      <text x="55" y="26" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">🖼️ 手机截图/照片</text>
+      <!-- 缩略图示意 -->
+      <rect x="14" y="40" width="92" height="60" rx="8" fill="#1e293b"/>
+      <circle cx="84" cy="54" r="6" fill="#fde047"/>
+      <path d="M22 92 L44 68 L62 84 L78 64 L98 92 Z" fill="#34d399"/>
+      <!-- 右侧说明 -->
+      <text x="116" y="58" font-size="12" font-weight="700" fill="#1e3a8a">手机截屏或复制图片</text>
+      <text x="116" y="76" font-size="11.5" fill="#3b82f6">自动解密原图并写入</text>
+      <text x="116" y="92" font-size="11.5" fill="#3b82f6">电脑系统剪贴板</text>
+    </g>
+
+    <!-- 手机底部微信输入法候选栏提示 -->
+    <g transform="translate(28, 344)">
+      <rect width="234" height="38" rx="12" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.2"/>
+      <text x="117" y="24" text-anchor="middle" font-size="11.5" font-weight="700" fill="#4338ca">
+        📥 收到电脑剪贴板 → 候选栏一键粘贴
+      </text>
+    </g>
+  </g>
+
+  <!-- =====================================================================
+       中间：WePaste 双向同步核心桥接器
+       ===================================================================== -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <!-- 上通道：手机 ──▶ 电脑（自动接收文字 & 图片） -->
+    <g transform="translate(378, 132)">
+      <rect x="0" y="0" width="384" height="106" rx="22" fill="#ffffff" stroke="#a7f3d0" stroke-width="2" filter="url(#softShadow)"/>
+      <!-- 顶部流向胶囊 -->
+      <rect x="18" y="14" width="168" height="24" rx="12" fill="#d1fae5"/>
+      <text x="102" y="30" text-anchor="middle" font-size="11.5" font-weight="800" fill="#065f46">01 // 手机 ──▶ 电脑（自动）</text>
+      <text x="364" y="30" text-anchor="end" font-size="11.5" font-weight="700" fill="#059669">📝 文字 + 🖼️ 图片</text>
+
+      <!-- 动态流向箭头 -->
+      <line x1="22" y1="56" x2="342" y2="56" stroke="url(#rxBeam)" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 6"/>
+      <polygon points="358,56 340,46 340,66" fill="#10b981"/>
+
+      <text x="192" y="86" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">
+        手机一复制，自动写入电脑系统剪贴板（直接 ⌘V / Ctrl+V）
+      </text>
+    </g>
+
+    <!-- 中央 WePaste 徽章 -->
+    <g transform="translate(570, 286)">
+      <rect x="-126" y="-26" width="252" height="52" rx="26" fill="url(#logoGrad)" filter="url(#cardShadow)"/>
+      <circle cx="-92" cy="0" r="16" fill="rgba(255,255,255,0.22)"/>
+      <text x="-92" y="6" text-anchor="middle" font-size="16" font-weight="900" fill="#ffffff">W</text>
+      <text x="14" y="-2" text-anchor="middle" font-size="15" font-weight="800" fill="#ffffff">WePaste 菜单栏常驻</text>
+      <text x="14" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#e0e7ff">6 位数字码配对 · 端到端加密</text>
+    </g>
+
+    <!-- 下通道：电脑 ──▶ 手机（一键发送文字 & 图片） -->
+    <g transform="translate(378, 336)">
+      <rect x="0" y="0" width="384" height="106" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="2" filter="url(#softShadow)"/>
+      <!-- 顶部流向胶囊 -->
+      <rect x="18" y="14" width="168" height="24" rx="12" fill="#e0e7ff"/>
+      <text x="102" y="30" text-anchor="middle" font-size="11.5" font-weight="800" fill="#3730a3">02 // 电脑 ──▶ 手机（一键）</text>
+      <text x="364" y="30" text-anchor="end" font-size="11.5" font-weight="700" fill="#4f46e5">📝 文字 + 🖼️ 截图</text>
+
+      <!-- 动态流向箭头（从右向左） -->
+      <line x1="358" y1="56" x2="38" y2="56" stroke="url(#txBeam)" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 6"/>
+      <polygon points="22,56 40,46 40,66" fill="#6366f1"/>
+
+      <text x="192" y="86" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">
+        读取电脑当前剪贴板文字或截图，一键推送到手机候选栏
+      </text>
+    </g>
+  </g>
+
+  <!-- =====================================================================
+       右侧：电脑端（macOS / Windows 系统剪贴板）
+       ===================================================================== -->
+  <g transform="translate(782, 86)" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <!-- 电脑屏幕主卡片 -->
+    <rect x="0" y="0" width="350" height="410" rx="26" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#cardShadow)"/>
+
+    <!-- macOS 窗口顶栏与红绿灯 -->
+    <rect x="14" y="14" width="322" height="36" rx="12" fill="#f1f5f9"/>
+    <circle cx="34" cy="32" r="6" fill="#ef4444"/>
+    <circle cx="52" cy="32" r="6" fill="#f59e0b"/>
+    <circle cx="70" cy="32" r="6" fill="#10b981"/>
+    <text x="185" y="36" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">💻 Mac / Windows 任意应用</text>
+
+    <!-- 优势高亮条：无需切换输入法 -->
+    <g transform="translate(24, 64)">
+      <rect width="302" height="42" rx="12" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+      <text x="151" y="26" text-anchor="middle" font-size="12.5" font-weight="800" fill="#92400e">
+        ✨ 保持你习惯的输入法（Rime / 系统自带 / 搜狗）
+      </text>
+    </g>
+
+    <!-- 电脑直接粘贴演示区 -->
+    <g transform="translate(24, 120)">
+      <rect width="302" height="156" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="16" y="28" font-size="12" font-weight="700" fill="#059669">📥 手机复制的内容已就绪，直接按下：</text>
+
+      <!-- ⌘V / Ctrl+V 按键视觉 -->
+      <g transform="translate(16, 42)">
+        <rect x="0" y="0" width="66" height="38" rx="9" fill="#0f172a"/>
+        <text x="33" y="24" text-anchor="middle" font-size="15" font-weight="800" fill="#ffffff">⌘ + V</text>
+        <text x="80" y="24" font-size="12.5" font-weight="700" fill="#64748b">或</text>
+        <rect x="102" y="0" width="84" height="38" rx="9" fill="#334155"/>
+        <text x="144" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#ffffff">Ctrl + V</text>
+      </g>
+
+      <!-- 粘贴出的文字与图片预览 -->
+      <rect x="16" y="92" width="166" height="48" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/>
+      <text x="28" y="113" font-size="11.5" font-weight="700" fill="#065f46">✓ 粘贴手机复制的文字</text>
+      <text x="28" y="130" font-size="10.5" fill="#047857">支持长文本、代码、链接</text>
+
+      <rect x="192" y="92" width="94" height="48" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+      <text x="239" y="113" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1e40af">✓ 粘贴图片</text>
+      <text x="239" y="130" text-anchor="middle" font-size="10.5" fill="#2563eb">原图直粘</text>
+    </g>
+
+    <!-- 电脑发往手机演示区 -->
+    <g transform="translate(24, 290)">
+      <rect width="302" height="96" rx="16" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+      <text x="16" y="28" font-size="12.5" font-weight="800" fill="#3730a3">📤 电脑复制文字 / CleanShot 截图</text>
+      <text x="16" y="48" font-size="11.5" fill="#4338ca">在电脑上 Cmd+C 复制后，点面板或托盘菜单：</text>
+      <rect x="16" y="58" width="270" height="28" rx="8" fill="url(#txBeam)"/>
+      <text x="151" y="76" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">🚀 发送电脑当前剪贴板到手机 ──▶</text>
+    </g>
+  </g>
+</svg>

@@ -2,71 +2,39 @@
 
 **无需切换电脑输入法，直接双向同步手机「微信输入法」与电脑（macOS / Windows）系统剪贴板。**
 
+<p align="center">
+  <img src="assets/hero-workflow.jpg" alt="WePaste 跨设备剪贴板双向同步示意图" width="100%" />
+</p>
+
 手机上用微信输入法很顺手，但在电脑（Mac / Windows）上往往主力使用系统自带输入法、Rime 或搜狗输入法。官方微信输入法桌面端要求切换到它的输入法状态下才能完整使用跨设备剪贴板。
 
-**WePaste** 基于开源的微信输入法跨设备通信协议实现，是一个常驻菜单栏（macOS Menu Bar）/ 系统托盘（Windows System Tray）的轻量桌面小工具：
-- **手机复制 ──▶ 电脑直接 `⌘V` / `Ctrl+V`**：后台每 2 秒自动监听手机微信输入法复制的**文字与图片（截图/相册照片）**，直接写入电脑系统剪贴板，完全不绑定电脑当前使用什么输入法。
-- **电脑剪贴板 ──▶ 一键发给手机**：随时将电脑当前剪贴板中的文字或截图推送到手机微信输入法候选栏。
-- **Arc Split-Deck 流光双太空舱界面**：内置「☀️ 亮色版」与「🌙 暗色版」双主题界面，支持窗口任意空白处拖拽、主显示设备自由切换、开机自动启动与 GitHub Releases 自动检查更新。
+**WePaste** 是一个常驻菜单栏（macOS Menu Bar）/ 系统托盘（Windows System Tray）的轻量小工具，让你**保持电脑原有的打字输入法不变**，同时打通手机微信输入法的跨设备剪贴板：
+- **手机复制 ──▶ 电脑直接 `⌘V` / `Ctrl+V`**：在手机上复制任意**文字、网页链接、手机截图或相册图片**，WePaste 后台自动接收并直接写入电脑系统剪贴板。
+- **电脑复制 ──▶ 一键发给手机**：在电脑上复制文字或截图后，点击面板或菜单栏「把电脑剪贴板发给手机」，手机微信输入法候选栏即可直接粘贴。
+- **Arc Split-Deck 流光双太空舱界面**：内置「☀️ 亮色版」与「🌙 暗色版」双主题界面，支持窗口任意空白区域拖拽、主显示手机切换、开机自启与自动检查更新。
 
 ---
 
-## 核心特性
+## 怎么使用
 
-- **零输入法侵入**：不需要在 Mac / Windows 上安装或切换到微信输入法，保持原有的打字习惯。
-- **文字 + 图片双向互通**：
-  - 自动接收手机复制的文字、网页链接、手机截图，解码后直接写入电脑系统剪贴板并居中展示缩略图。
-  - 支持读取电脑当前剪贴板的文字或截图，一键编码加密上传至手机端微信输入法。
-- **6 位数字码直连配对**：打开手机「微信输入法 App → 跨设备复制粘贴」，在 WePaste 输入手机显示的 6 位数字配对码并在手机点确认即可完成绑定。
-- **跨平台原生常驻**：
-  - **macOS**：`ActivationPolicy::Accessory` 菜单栏常驻，原生支持 Apple Silicon (`aarch64`) 与 Intel (`x86_64`)。
-  - **Windows**：系统托盘常驻，原生支持 `x64` 与 `ARM64`。
-- **自动更新与开机自启**：内置 `tauri-plugin-updater` 与 `tauri-plugin-autostart`，支持菜单栏右键菜单和设置面板内一键检查并安装新版本。
+1. **下载并启动 WePaste**：应用启动后会常驻在电脑顶部菜单栏（macOS）或右下角系统托盘（Windows）。
+2. **输入 6 位配对码**：
+   - 打开手机 **「微信输入法」App →「跨设备复制粘贴」**；
+   - 在电脑 WePaste 面板中输入手机上显示的 **6 位数字配对码**，点击 **「确认配对」**；
+   - 在手机弹出的连接确认框中点击 **「连接」**。
+3. **日常无感同步**：
+   - **手机 → 电脑**：保持默认开启的「⚡ 实时同步 ON」，手机上一复制文字或截图，电脑端无需任何操作即可直接按 `⌘V`（macOS）或 `Ctrl+V`（Windows）粘贴。
+   - **电脑 → 手机**：在电脑上复制内容后，点击 WePaste 面板下半区的 **「🚀 发送上面这条电脑剪贴板到手机」**（或菜单栏右键菜单中的「把电脑剪贴板发给手机」）。
 
----
-
-## 目录结构
-
-```text
-WePaste/
-├── Cargo.toml                 # Workspace 根配置
-├── ui/
-│   └── index.html             # Arc Split-Deck 亮/暗双主题前端面板
-├── src-tauri/                 # Tauri v2 桌面端宿主（系统剪贴板读写、托盘、自动更新、开机自启）
-│   ├── src/main.rs
-│   ├── tauri.conf.json
-│   └── entitlements.plist
-├── crates/
-│   ├── wx-ime-protocol/       # 微信输入法底层加密与协议原语（ECDH P-256 / HKDF / AES-GCM / Protobuf）
-│   └── wx-ime-sdk/            # 跨设备注册、6 位码配对、群组管理、COS 大文件加解密与剪贴板收发客户端
-└── .github/workflows/
-    ├── ci.yml                 # macOS + Windows 自动编译与单元测试
-    └── release.yml            # 多架构安装包构建、自动更新签名与 latest.json 发布流水线
-```
+<p align="center">
+  <img src="assets/workflow.svg" alt="WePaste 双向同步详细工作流示意图" width="100%" />
+</p>
 
 ---
 
 ## 本地开发与构建
 
-### 环境依赖
-
-1. **Rust 工具链**（`>= 1.85`）
-2. **Protobuf 编译器 (`protoc`)**
-   - macOS：`brew install protobuf`
-   - Windows：`choco install protoc` 或 `winget install Google.Protobuf`
-
-### 编译与测试
-
-```bash
-# 运行协议与 SDK 单元测试
-cargo test -p wx-ime-protocol -p wx-ime-sdk
-
-# 编译桌面端（macOS 使用 Homebrew OpenSSL）
-OPENSSL_DIR=/opt/homebrew/opt/openssl@3 cargo build
-
-# 跨平台免外部 OpenSSL 依赖编译（内置静态编译 OpenSSL）
-cargo build --features wepaste/vendored-openssl
-```
+关于项目目录结构、本地编译调试、macOS 签名以及 GitHub Actions 自动发版配置，请参阅 **[本地开发与构建指南 (`dev.md`)](dev.md)**。
 
 ---
 
