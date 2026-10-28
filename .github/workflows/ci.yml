@@ -24,6 +24,8 @@ jobs:
 
       - name: Install Protobuf Compiler (protoc)
         uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable

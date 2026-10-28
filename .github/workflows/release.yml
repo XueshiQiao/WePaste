@@ -40,6 +40,8 @@ jobs:
 
       - name: Install Protobuf Compiler (protoc)
         uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -70,12 +72,15 @@ jobs:
           security import $CERTIFICATE_PATH -P "$APPLE_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
 
       - name: Build Tauri App (macOS)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
@@ -89,6 +94,10 @@ jobs:
           c.get("bundle", {})["createUpdaterArtifacts"] = False
           with open(p, "w") as f: json.dump(c, f, indent=2)
           '
+          fi
+          # If APPLE_SIGNING_IDENTITY is empty, unset it so Tauri CLI auto-detects the identity from the imported keychain / APPLE_CERTIFICATE
+          if [ -z "$APPLE_SIGNING_IDENTITY" ]; then
+            unset APPLE_SIGNING_IDENTITY
           fi
           npx tauri build --target ${{ matrix.target }} --features vendored-openssl
 
@@ -122,8 +131,10 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Install Protobuf Compiler (protoc) + Strawberry Perl (for vendored OpenSSL)
+      - name: Install Protobuf Compiler (protoc)
         uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -139,21 +150,14 @@ jobs:
         run: npm install --no-save @tauri-apps/cli@^2
 
       - name: Build Tauri App (Windows)
-        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
-          if [ -z "$TAURI_SIGNING_PRIVATE_KEY" ]; then
-            python3 -c '
-          import json
-          p = "src-tauri/tauri.conf.json"
-          with open(p) as f: c = json.load(f)
-          c.get("bundle", {})["createUpdaterArtifacts"] = False
-          with open(p, "w") as f: json.dump(c, f, indent=2)
-          '
-          fi
+          if (-not $env:TAURI_SIGNING_PRIVATE_KEY) {
+            python -c "import json; p='src-tauri/tauri.conf.json'; c=json.load(open(p)); c.get('bundle',{})['createUpdaterArtifacts']=False; json.dump(c,open(p,'w'),indent=2)"
+          }
           npx tauri build --target ${{ matrix.target }} --features vendored-openssl
 
       - name: Upload Windows NSIS / MSI & Updater Bundle
