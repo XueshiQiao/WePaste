@@ -738,6 +738,18 @@ fn setup_tray(app: &AppHandle, ctx: &AppContext) -> tauri::Result<()> {
             }
         });
 
+    #[cfg(target_os = "macos")]
+    {
+        if let Ok(template_icon) =
+            tauri::image::Image::from_bytes(include_bytes!("../icons/tray-icon-template.png"))
+        {
+            builder = builder.icon(template_icon).icon_as_template(true);
+        } else if let Some(icon) = app.default_window_icon().cloned() {
+            builder = builder.icon(icon).icon_as_template(true);
+        }
+    }
+
+    #[cfg(not(target_os = "macos"))]
     if let Some(icon) = app.default_window_icon().cloned() {
         builder = builder.icon(icon);
     }
