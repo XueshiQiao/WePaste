@@ -196,40 +196,40 @@ jobs:
           mkdir -p release-assets
 
           # Copy macOS Silicon (aarch64)
-          for f in artifacts/macos-aarch64-apple-darwin/target/aarch64-apple-darwin/release/bundle/dmg/*.dmg; do
+          for f in artifacts/macos-aarch64-apple-darwin/dmg/*.dmg; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_macos_aarch64.dmg"
           done
-          for f in artifacts/macos-aarch64-apple-darwin/target/aarch64-apple-darwin/release/bundle/macos/*.app.tar.gz; do
+          for f in artifacts/macos-aarch64-apple-darwin/macos/*.app.tar.gz; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_macos_aarch64.app.tar.gz"
           done
-          for f in artifacts/macos-aarch64-apple-darwin/target/aarch64-apple-darwin/release/bundle/macos/*.app.tar.gz.sig; do
+          for f in artifacts/macos-aarch64-apple-darwin/macos/*.app.tar.gz.sig; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_macos_aarch64.app.tar.gz.sig"
           done
 
           # Copy macOS Intel (x86_64)
-          for f in artifacts/macos-x86_64-apple-darwin/target/x86_64-apple-darwin/release/bundle/dmg/*.dmg; do
+          for f in artifacts/macos-x86_64-apple-darwin/dmg/*.dmg; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_macos_x64.dmg"
           done
-          for f in artifacts/macos-x86_64-apple-darwin/target/x86_64-apple-darwin/release/bundle/macos/*.app.tar.gz; do
+          for f in artifacts/macos-x86_64-apple-darwin/macos/*.app.tar.gz; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_macos_x64.app.tar.gz"
           done
-          for f in artifacts/macos-x86_64-apple-darwin/target/x86_64-apple-darwin/release/bundle/macos/*.app.tar.gz.sig; do
+          for f in artifacts/macos-x86_64-apple-darwin/macos/*.app.tar.gz.sig; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_macos_x64.app.tar.gz.sig"
           done
 
           # Copy Windows x64
-          for f in artifacts/windows-x86_64-pc-windows-msvc/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe; do
+          for f in artifacts/windows-x86_64-pc-windows-msvc/nsis/*.exe; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_windows_x64-setup.exe"
           done
-          for f in artifacts/windows-x86_64-pc-windows-msvc/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe.sig; do
+          for f in artifacts/windows-x86_64-pc-windows-msvc/nsis/*.exe.sig; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_windows_x64-setup.exe.sig"
           done
 
           # Copy Windows ARM64
-          for f in artifacts/windows-aarch64-pc-windows-msvc/target/aarch64-pc-windows-msvc/release/bundle/nsis/*.exe; do
+          for f in artifacts/windows-aarch64-pc-windows-msvc/nsis/*.exe; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_windows_arm64-setup.exe"
           done
-          for f in artifacts/windows-aarch64-pc-windows-msvc/target/aarch64-pc-windows-msvc/release/bundle/nsis/*.exe.sig; do
+          for f in artifacts/windows-aarch64-pc-windows-msvc/nsis/*.exe.sig; do
             [ -f "$f" ] && cp "$f" "release-assets/WePaste_${VERSION}_windows_arm64-setup.exe.sig"
           done
 
